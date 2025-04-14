@@ -5,7 +5,7 @@ A performant React component library for template-based content composition, all
 ## Installation
 
 ```bash
-npm install react-simple-slots
+npm install @roboteich/react-simple-slots
 ```
 
 ## Usage
