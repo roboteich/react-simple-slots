@@ -1,0 +1,54 @@
+{
+  "name": "@roboteich/react-simple-slots",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A simple and performant slot-based templating system for React",
+  "license": "MIT",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "clean": "npx rimraf dist node_modules",
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "test": "npm run build && vitest",
+    "test:watch": "npm run dev & vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "biome format . --write",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --apply",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@roboteich/react-simple-slots": "file:./",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@types/node": "^20.11.28",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^3.1.1",
+    "jsdom": "^26.0.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.4.2",
+    "vite": "^6.2.6",
+    "vite-plugin-dts": "^3.7.3",
+    "vitest": "^3.1.1"
+  },
+  "keywords": [
+    "react",
+    "template",
+    "slot",
+    "composition",
+    "layout"
+  ]
+}
