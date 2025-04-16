@@ -170,12 +170,13 @@ describe("Integration Tests", () => {
         <Slot name="main">
           <div>Custom Main Content</div>
         </Slot>
+        <Slot name="footer" />
       </DocPageTemplate>,
     );
 
     expect(screen.getByText("Custom Header")).toBeInTheDocument();
     expect(screen.getByText("Custom Main Content")).toBeInTheDocument();
-    expect(screen.getByText("Default Footer")).toBeInTheDocument();
+    expect(screen.queryByText("Default Footer")).not.toBeInTheDocument();
     expect(screen.queryByText("Default Header")).not.toBeInTheDocument();
     expect(screen.queryByText("Default Main Content")).not.toBeInTheDocument();
   });
