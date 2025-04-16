@@ -70,6 +70,76 @@ describe("SlotContext", () => {
       expect("footer" in result.current.slotValues).toBe(true);
     });
 
+    describe("hasSlot", () => {
+      const wrapper = ({ children }: { children: ReactNode }) => (
+        <SlotProvider>{children}</SlotProvider>
+      );
+
+      it("should correctly identify existing slots", () => {
+        const { result } = renderHook(() => useSlotContext(), { wrapper });
+
+        act(() => {
+          result.current.setSlotValue("header", <div>Header Content</div>);
+        });
+
+        expect(result.current.hasSlot("header")).toBe(true);
+        expect(result.current.hasSlot("footer")).toBe(false);
+      });
+
+      it("should return false for nonexistent slots", () => {
+        const { result } = renderHook(() => useSlotContext(), { wrapper });
+        expect(result.current.hasSlot("nonexistent")).toBe(false);
+      });
+
+      it("should correctly update after adding and removing slots", () => {
+        const { result } = renderHook(() => useSlotContext(), { wrapper });
+
+        // Initially slot doesn't exist
+        expect(result.current.hasSlot("dynamic")).toBe(false);
+
+        // Add the slot
+        act(() => {
+          result.current.setSlotValue("dynamic", <span>Dynamic content</span>);
+        });
+        expect(result.current.hasSlot("dynamic")).toBe(true);
+
+        // Remove the slot
+        act(() => {
+          result.current.removeSlotValue("dynamic");
+        });
+        expect(result.current.hasSlot("dynamic")).toBe(false);
+      });
+
+      it("should handle null and undefined slot values", () => {
+        const { result } = renderHook(() => useSlotContext(), { wrapper });
+
+        act(() => {
+          result.current.setSlotValue("nullSlot", null);
+          result.current.setSlotValue("undefinedSlot", undefined);
+        });
+
+        expect(result.current.hasSlot("nullSlot")).toBe(true);
+        expect(result.current.hasSlot("undefinedSlot")).toBe(true);
+      });
+
+      it("should be consistent with slotValues object keys", () => {
+        const { result } = renderHook(() => useSlotContext(), { wrapper });
+
+        act(() => {
+          result.current.setSlotValue("test1", "value1");
+          result.current.setSlotValue("test2", "value2");
+        });
+
+        // Check that hasSlot matches what's in slotValues
+        const slotValues = Object.keys(result.current.slotValues);
+        for (const key of slotValues) {
+          expect(result.current.hasSlot(key)).toBe(true);
+        }
+
+        expect(result.current.hasSlot("nonexistentKey")).toBe(false);
+      });
+    });
+
     describe("state optimizations", () => {
       it("should reuse state object when setting same content", () => {
         const { result } = renderHook(() => useSlotContext(), { wrapper });

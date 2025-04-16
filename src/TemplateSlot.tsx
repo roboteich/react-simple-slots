@@ -22,11 +22,11 @@ export const TemplateSlot = ({
   name,
   children,
 }: TemplateSlotProps): JSX.Element => {
-  const { slotValues } = useSlotContext();
+  const { slotValues, hasSlot } = useSlotContext();
   const slotContent = slotValues[name];
 
   // If no slot content, render default children
-  if (!slotContent) {
+  if (!hasSlot(name)) {
     return <>{children}</>;
   }
 

@@ -25,6 +25,8 @@ export type SlotContextType = {
   setSlotValue: (name: string, children: SlotChildren) => void;
   /** Removes a named slot and its content */
   removeSlotValue: (name: string) => void;
+  /** Checks if a slot with the given name exists */
+  hasSlot: (name: string) => boolean;
 };
 
 /**
@@ -50,8 +52,7 @@ export const SlotProvider = ({
   const setSlotValue = (name: string, children: SlotChildren) => {
     setSlotValues((prev) => {
       // If content hasn't changed, return same object to prevent re-renders
-      if (prev[name] === children) return prev;
-
+      if (name in prev && prev[name] === children) return prev;
       return {
         ...prev,
         [name]: children,
@@ -70,12 +71,18 @@ export const SlotProvider = ({
     });
   };
 
+  /** Checks if a slot with the given name exists */
+  const hasSlot = (name: string): boolean => {
+    return name in slotValues;
+  };
+
   return (
     <SlotContext.Provider
       value={{
         slotValues,
         setSlotValue,
         removeSlotValue,
+        hasSlot,
       }}
     >
       {children}
